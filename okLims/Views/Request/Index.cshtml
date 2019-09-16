@@ -98,6 +98,8 @@
                         editMode: "dialog"
                     },
                     isResponsive: true,
+                        allowGrouping: true,
+        allowReordering: true,
                     enableResponsiveRow: true,
                     allowSorting: true,
                     allowSearching: true,
@@ -137,9 +139,7 @@
        
         function complete(args) {
             if (args.requestType == 'beginedit') {
-                if (args.rowData.State == "Complete") {
-                    args.cancel = true
-                }else
+                
                 $("#" + this._id + "_dialogEdit").ejDialog({ title: "Edit Record" });
             }
         };

@@ -88,11 +88,14 @@ namespace okLims.Controllers.api
                 request = _context.Request
                     .Where(x => x.RequestId.Equals(Id))
                     .FirstOrDefault();
-                if(request !=null)
+                
+                if (request !=null)
                 {
-                    request.StateId = 2;
+                    List<RequestLine> lines = new List<RequestLine>();
+                    lines = _context.RequestLine.Where(x => x.RequestId.Equals(Id)).ToList();
+                   
                     _context.Update(request);
-                    _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
             } catch(Exception)
             {
@@ -112,29 +115,39 @@ namespace okLims.Controllers.api
             return Ok(Request);
         }
         [HttpPost("[action]")]
-        public async Task<IActionResult> Detail([FromBody]CrudViewModel<Request> payload)
+        public IActionResult Detail([FromBody]CrudViewModel<Request> payload)
         {
             
             Request request = payload.value;
-       
-           request.StateId = 1;
+            if (request.StateId <= 1)
+            {
+                request.StateId = 1;
+                _context.Request.Update(request);
+                _context.SaveChanges();
+
+                return Ok(request);
+            }
             _context.Request.Update(request);
             _context.SaveChanges();
-               await _emailSender.SendEmailAsync(request.RequesterEmail, "Order Completed", "Order Number: {Requ  estId} completed on {DateTime.Now}");
+
             return Ok(request);
         }
         [HttpPost("[action]")]
-        public IActionResult Update([FromBody]CrudViewModel<Request> payload)
+        public async Task<IActionResult> Update([FromBody]CrudViewModel<Request> payload)
         {
             Request request = payload.value;             
-             _context.Request.Update(request);
+            
         if (request.StateId == 1)
             {
+         
+                await _emailSender.SendEmailAsync(request.RequesterEmail, "Order Completed", "Order Number: {RequestId} completed on {DateTime.Now}");
                 this.CompleteRequest(request.RequestId);
+                request.StateId = 2;
                 _context.SaveChanges();
                 return Ok(request);
             }
-                _context.SaveChanges();
+            _context.Request.Update(request);
+            _context.SaveChanges();
                 return Ok(Request);
             
        

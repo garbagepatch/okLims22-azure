@@ -5,6 +5,8 @@
     <UserSecretsId>aspnet-oklims-10F86EC1-A7B9-40B3-A943-2C9C114B0BDE</UserSecretsId>
     <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <ApplicationInsightsResourceId>/subscriptions/f6a45975-321a-4cff-8306-a2ab3baf8cf8/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/okLims</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/f6a45975-321a-4cff-8306-a2ab3baf8cf8/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/okLims</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,6 +32,7 @@
 
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.11">
       <PrivateAssets>all</PrivateAssets>

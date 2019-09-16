@@ -116,11 +116,8 @@ namespace okLims
                 options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
                 options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
             });
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-             
-            });
+            services.AddSwaggerGen();
+           
         }
 
     
@@ -143,14 +140,8 @@ namespace okLims
             app.UseStaticFiles();
 
             app.UseAuthentication();
-        app.UseSwagger();
-
-        // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-        // specifying the Swagger JSON endpoint.
-        app.UseSwaggerUI(c =>
-        {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-        });
+     
+       
 
 
         app.UseMvc(routes =>
@@ -160,6 +151,11 @@ namespace okLims
                     template: "{controller=UserRole}/{action=ApplicationUser}/{id?}");
            
  });
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI();
         }
     }
 }

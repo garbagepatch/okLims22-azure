@@ -30,7 +30,7 @@ namespace okLims.Controllers.api
         [HttpGet]
         public IActionResult LoadData()  // Here we get the Start and End Date and based on that can filter the data and return to Scheduler
         {
-            var data = db.Request.ToList();
+            var data = db.ScheduleEvent.ToList();
             return Ok(data);
         }
         [HttpPost("[action]")]

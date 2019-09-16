@@ -30,20 +30,20 @@
                     <dt>@Html.DisplayNameFor(model => model.RequestId)</dt>
                     <dd>@Html.DisplayFor(model => model.RequestId)</dd>
                     <dt> @Html.DisplayNameFor(model => model.FilterSize)</dt>
-                    <dd>@Html.DisplayFor(item => item.FilterSize)</dd>
+                    <dd>@Html.DisplayFor(item => item.SizeID)</dd>
                     <dt>
-                        @Html.DisplayNameFor(model => model.ControllerType)
+                        @Html.DisplayNameFor(model => model.ControllerID)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(item =>item.ControllerType)
+                        @Html.DisplayFor(item =>item.ControllerID)
                     </dd>
                     <dt>
-                        @Html.DisplayNameFor(model => model.FilterType)
+                        @Html.DisplayNameFor(model => model.FilterID)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(item => item.FilterType)
+                        @Html.DisplayFor(item => item.FilterID)
                     </dd>
                     <dt>
                         @Html.DisplayNameFor(model => model.Laboratory)
@@ -83,20 +83,19 @@
                         @Html.DisplayNameFor(model => model.State)
                     </dt>
                     <dd>
-                     <form method="get">
-                        @Model.StateId
-                   
-                                                               )
-                     </form>
-                         
-                      
+
+                        @Html.DisplayFor(model => model.StateId)
+
+                        
+
+
                     </dd>
                 </dl>
             </div>
             <div class="box-footer">
 
                 <form method="post">
-                   <button asp-route="api/Request/insert">Complete</button> 
+                   <button asp-route="api/Request/Update">Complete</button> 
                 </form>
             </div>
 

@@ -42,12 +42,13 @@
     <!-- /.content -->
 </div>
 
-<ejs-schedule id="schedule" width="100%" height="550" popUpOpen="onPopupOpen" showQuickInfo="false" selectedDate=DateTime.Now>
+<ejs-schedule id="schedule" width="100%" height="550" popUpOpen="onPopupOpen" showQuickInfo="false"  actionBegin="onActionBegin" selectedDate=DateTime.Now eventRendered="onEventRendered">
     <e-schedule-views>
         <e-schedule-view option="Day"></e-schedule-view>
-        <e-schedule-view option="Week"></e-schedule-view>
-        <e-schedule-view option="WorkWeek"></e-schedule-view>
+
         <e-schedule-view option="Month"></e-schedule-view>
+        <e-schedule-view option="TimelineDay"></e-schedule-view>
+        <e-schedule-view option="TimelineWeek"></e-schedule-view>
     </e-schedule-views>
     <e-schedule-eventsettings dataSource="dataManager">
         <e-eventsettings-fields id="RequestId">
@@ -72,6 +73,7 @@
         padding-right: 16px;
     }
 </style>
+
 <script id="EventEditorTemplate" type="text/template">
     <table class="custom-event-editor" width="100%" cellpadding="5">
         <tbody>
@@ -123,6 +125,12 @@
                     <textarea id="SpecialDetails" class="e-field e-input" name="SpecialDetails" rows="3" cols="50" style="width: 100%; height: 60px !important; resize: vertical"></textarea>
                 </td>
             </tr>
+            <tr>
+                <td class="e-textlabel">Status</td>
+                <td colspan="4">
+                    <input type="text" id="StateId" name="State" class="e-field" style="width: 100%" />
+                </td>
+            </tr>
         </tbody>
     </table>
 </script>
@@ -130,7 +138,7 @@
 <script type="text/javascript">
     function onPopupOpen(args) {
         if (args.type === 'Editor') {
-            
+
             var dataManager = ej.DataManager({
                 url: "/api/RequestCalendar",
                 adaptor: new ej.WebApiAdaptor(),
@@ -155,8 +163,8 @@
                 url: "/api/Laboratory",
                 adaptor: new ej.WebApiAdaptor()
             });
-           
-            var dataManagerState  = ej.DataManager({
+
+            var dataManagerState = ej.DataManager({
                 url: "/api/Requeststate",
                 adaptor: new ej.WebApiAdaptor()
             });
@@ -171,7 +179,7 @@
                 dropDownListObject.appendTo(filterElement);
                 filterElement.setAttribute('FilterID', 'FilterType');
             }
-                var sizeElement = args.element.querySelector('#SizeID');
+            var sizeElement = args.element.querySelector('#SizeID');
             if (!sizeElement.classList.contains('e-dropdownlist')) {
                 var dropDownListObject = new ej.dropdowns.DropDownList({
                     placeholder: 'Choose Filter Size', value: sizeElement.value,
@@ -180,7 +188,7 @@
                 dropDownListObject.appendTo(sizeElement);
                 sizeElement.setAttribute('SizeID', 'filterSize');
             }
-                var controllerElement = args.element.querySelector('#ControllerID');
+            var controllerElement = args.element.querySelector('#ControllerID');
             if (!controllerElement.classList.contains('e-dropdownlist')) {
                 var dropDownListObject = new ej.dropdowns.DropDownList({
                     placeholder: 'Choose Controller Type', value: controllerElement.value,
@@ -189,7 +197,7 @@
                 dropDownListObject.appendTo(controllerElement);
                 controllerElement.setAttribute('ControllerID', 'controllerType');
             }
-                var labElement = args.element.querySelector('#LaboratoryId');
+            var labElement = args.element.querySelector('#LaboratoryId');
             if (!labElement.classList.contains('e-dropdownlist')) {
                 var dropDownListObject = new ej.dropdowns.DropDownList({
                     placeholder: 'Choose Lab', value: labElement.value,
@@ -208,4 +216,43 @@
             }
         }
     }
+        function onActionBegin(args) {
+            if (args.requestType === 'eventCreate' || args.requestType === 'eventChange') {
+                var data;
+                if (args.requestType === 'eventCreate') {
+                    data = args.data[0];
+                } else if (args.requestType === 'eventChange') {
+                    data = args.data;
+                }
+                var scheduleObj = document.getElementById('schedule').ej2_instances[0];
+                if (!scheduleObj.isSlotAvailable(data.StartTime, data.EndTime)) {
+                    args.cancel = true;
+                }
+            }
+            }
+              function onEventRendered(args) {
+            var categoryColor;
+            switch (args.data.StateId) {
+                case 0:
+                    categoryColor = '#F57F17';
+                    break;
+                case 2:
+                    categoryColor = '#7fa900';
+                    break;
+                case 1:
+                    categoryColor = '#8e24aa';
+                    break;
+            }
+            if (!args.element || !categoryColor) {
+                return;
+            }
+            var scheduleObj = document.getElementById('schedule').ej2_instances[0];
+            if (scheduleObj.currentView === 'Agenda') {
+                (args.element.firstChild).style.borderLeftColor = categoryColor;
+            } else {
+                args.element.style.backgroundColor = categoryColor;
+            }
+        }
+        
+    
 </script>
