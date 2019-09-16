@@ -139,7 +139,7 @@
     function onPopupOpen(args) {
         if (args.type === 'Editor') {
 
-            var dataManager = ej.DataManager({
+            var dataManagerRequest = ej.DataManager({
                 url: "/api/RequestCalendar",
                 adaptor: new ej.WebApiAdaptor(),
                 offline: true
