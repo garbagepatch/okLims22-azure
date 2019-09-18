@@ -10,8 +10,8 @@ using okLims.Data;
 namespace okLims.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190916061959_tlip")]
-    partial class tlip
+    [Migration("20190918225348_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -247,20 +247,30 @@ namespace okLims.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTimeOffset>("CalibrationDate");
+                    b.Property<DateTime>("CalibrationDate");
 
-                    b.Property<DateTimeOffset>("CalibrationDue");
+                    b.Property<DateTime>("CalibrationDue");
 
                     b.Property<int>("CalibrationLength");
+
+                    b.Property<int?>("InstrumentFK");
 
                     b.Property<string>("InstrumentName")
                         .IsRequired();
 
+                    b.Property<int>("InstrumentTypeID");
+
                     b.Property<DateTime>("MaintenanceDate");
+
+                    b.Property<DateTime>("MaintenanceDue");
 
                     b.Property<int>("MaintenanceInterval");
 
                     b.HasKey("InstrumentId");
+
+                    b.HasIndex("InstrumentFK");
+
+                    b.HasIndex("InstrumentTypeID");
 
                     b.ToTable("Instrument");
                 });
@@ -292,6 +302,21 @@ namespace okLims.Migrations
                     b.HasIndex("InstrumentId");
 
                     b.ToTable("InstrumentLine");
+                });
+
+            modelBuilder.Entity("okLims.Models.InstrumentType", b =>
+                {
+                    b.Property<int>("InstrumentTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("InstrumentFK");
+
+                    b.Property<string>("instrumentType");
+
+                    b.HasKey("InstrumentTypeId");
+
+                    b.ToTable("InstrumentType");
                 });
 
             modelBuilder.Entity("okLims.Models.Laboratory", b =>
@@ -489,6 +514,18 @@ namespace okLims.Migrations
                     b.HasOne("okLims.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("okLims.Models.Instrument", b =>
+                {
+                    b.HasOne("okLims.Models.InstrumentType")
+                        .WithMany("Instrument")
+                        .HasForeignKey("InstrumentFK");
+
+                    b.HasOne("okLims.Models.InstrumentType", "InstrumentType")
+                        .WithMany()
+                        .HasForeignKey("InstrumentTypeID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

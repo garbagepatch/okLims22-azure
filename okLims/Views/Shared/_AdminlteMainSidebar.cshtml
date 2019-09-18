@@ -32,17 +32,23 @@
                     <i class="fa fa-calendar"></i><span>@MainMenu.RequestCalendar.PageName</span>
                 </a>
             </li>
+            <li class="@Html.IsSelected(controller: MainMenu.Instrument.ControllerName, action: MainMenu.Instrument.ActionName)">
+                <a href="@MainMenu.Instrument.Path">
+                    <i class="fa fa-circle"></i><span>@MainMenu.Instrument.PageName</span>
+                </a>
+            </li>
+            <li class="@Html.IsSelected(controller: MainMenu.InstrumentType.ControllerName, action: MainMenu.InstrumentType.ActionName)">
+                <a href="@MainMenu.InstrumentType.Path">
+                    <i class="fa fa-circle"></i><span>@MainMenu.InstrumentType.PageName</span>
+                </a>
+            </li>
 
             <li class="@Html.IsSelected(controller: MainMenu.Laboratory.ControllerName, action: MainMenu.Laboratory.ActionName)">
                 <a href="@MainMenu.Laboratory.Path">
                     <i class="fa fa-gear"></i><span>@MainMenu.Laboratory.PageName</span>
                 </a>
             </li>
-            <li class="@Html.IsSelected(controller: MainMenu.Instrument.ControllerName, action: MainMenu.Instrument.ActionName)">
-                <a href="@MainMenu.Instrument.Path">
-                    <i class="fa fa-circle"></i><span>@MainMenu.Instrument.PageName</span>
-                </a>
-            </li>
+
             <li class="header">FILTER INFO</li>
             <li class="@Html.IsSelected(controller: MainMenu.FilterSize.ControllerName, action: MainMenu.FilterSize.ActionName)">
                 <a href="@MainMenu.FilterSize.Path">
@@ -80,7 +86,7 @@
                     <i class="fa fa-gear"></i> <span>@MainMenu.ChangeRole.PageName</span>
                 </a>
             </li>
-       
+
         </ul>
     </section>
     <!-- /.sidebar -->

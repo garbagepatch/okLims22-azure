@@ -24,6 +24,10 @@
     <Compile Remove="Migrations\20190708182659_yoobly.Designer.cs" />
     <Compile Remove="Migrations\20190914233443_9oo9.cs" />
     <Compile Remove="Migrations\20190914233443_9oo9.Designer.cs" />
+    <Compile Remove="Migrations\20190917184701_uio.cs" />
+    <Compile Remove="Migrations\20190917184701_uio.Designer.cs" />
+    <Compile Remove="Migrations\20190918021530_add-migation.cs" />
+    <Compile Remove="Migrations\20190918021530_add-migation.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -57,7 +61,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Areas\Identity\Services\" />
+    <Folder Include="Areas\Identity\Services\" />
     <Folder Include="NewFolder\" />
   </ItemGroup>
 

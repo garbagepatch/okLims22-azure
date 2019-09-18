@@ -1,4 +1,5 @@
-﻿@{ ViewData["Title"] = "Instrument";
+﻿@{
+    ViewData["Title"] = "InstrumentType";
 }
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -33,30 +34,26 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
--eventsettings>
+
 
 @section Scripts{
 
-    <script type="text/javascript">
-        $(function () {
+    <script type="text/javascript">$(function () {
+
             var dataManager = ej.DataManager({
-                url: "/api/Instrument",
+                url: "/api/InstrumentType",
                 adaptor: new ej.WebApiAdaptor(),
                 offline: true
             });
-            var dataManagerType = ej.DataManager({
-                url: "/api/InstrumentType",
-                adaptor: new ej.WebApiAdaptor()
 
-            });
             dataManager.ready.done(function (e) {
                 $("#Grid").ejGrid({
                     dataSource: ej.DataManager({
                         json: e.result,
                         adaptor: new ej.remoteSaveAdaptor(),
-                        insertUrl: "/api/Instrument/Insert",
-                        updateUrl: "/api/Instrument/Update",
-                        removeUrl: "/api/Instrument/Remove",
+                        insertUrl: "/api/InstrumentType/Insert",
+                        updateUrl: "/api/InstrumentType/Update",
+                        removeUrl: "/api/InstrumentType/Remove",
                     }),
                     toolbarSettings: {
                         showToolbar: true,
@@ -75,42 +72,27 @@
                     allowSearching: true,
                     allowFiltering: true,
                     filterSettings: {
-                        filterType: "excel",
+                        instrumentType: "excel",
                         maxFilterChoices: 100,
                         enableCaseSensitivity: false
                     },
                     allowPaging: true,
                     pageSettings: { pageSize: 10, printMode: ej.Grid.PrintMode.CurrentPage },
                     columns: [
-                        { field: "InstrumentId", headerText: 'Instrument Id', isPrimaryKey: true, isIdentity: true, visible: false },
-                        { field: "InstrumentTypeId", headerText: 'Instrument Type', dataSource: dataManagerType, foreignKeyField: "InstrumentTypeId", foreignKeyValue: "instrumentType", editType: 'dropdownedit' },
-                        { field: "InstrumentName", headerText: 'Instrument Name' },
-                        { field: "CalibrationDate", headerText: 'Calibration Date', editType: "datepicker", allowEditing: true, },
-
-                        { field: "CalibrationDue", headerText: 'Calibration Due', allowEditing: true, editType: 'datepicker' },
-                        { field: "MaintenanceDate", headerText: 'Maintenance Date', editType: "datepicker", allowEditing: true },
-
-                        { field: "MaintenanceDue", headerText: 'Maintenance Due', allowEditing: true, editType: 'datepicker' },
+                        { field: "InstrumentTypeId", headerText: 'InstrumentType Id', isPrimaryKey: true, isIdentity: true, visible: false },
+                        { field: "instrumentType", headerText: 'Instrument Type', },
 
                     ],
                     actionComplete: "complete",
-
-
                 });
             });
+
+
         });
 
         function complete(args) {
             if (args.requestType == 'beginedit') {
                 $("#" + this._id + "_dialogEdit").ejDialog({ title: "Edit Record" });
-
-
             }
-        }
-
-
-
-
-
-    </script>
+        }</script>
 }

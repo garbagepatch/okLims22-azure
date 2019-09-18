@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace okLims.Migrations
 {
-    public partial class lol : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -60,7 +60,8 @@ namespace okLims.Migrations
                 {
                     ControllerID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    controllerType = table.Column<string>(nullable: true)
+                    controllerType = table.Column<string>(nullable: true),
+                    RequestFK = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,7 +74,8 @@ namespace okLims.Migrations
                 {
                     SizeID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    filterSize = table.Column<string>(nullable: true)
+                    filterSize = table.Column<string>(nullable: true),
+                    RequestFK = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,7 +88,8 @@ namespace okLims.Migrations
                 {
                     FilterID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    filterType = table.Column<string>(nullable: true)
+                    filterType = table.Column<string>(nullable: true),
+                    RequestFK = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -94,21 +97,17 @@ namespace okLims.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Instrument",
+                name: "InstrumentType",
                 columns: table => new
                 {
-                    InstrumentId = table.Column<int>(nullable: false)
+                    InstrumentTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    InstrumentName = table.Column<string>(nullable: false),
-                    CalibrationDue = table.Column<DateTimeOffset>(nullable: false),
-                    CalibrationDate = table.Column<DateTimeOffset>(nullable: false),
-                    CalibrationLength = table.Column<int>(nullable: false),
-                    MaintenanceDate = table.Column<DateTime>(nullable: false),
-                    MaintenanceInterval = table.Column<int>(nullable: false)
+                    instrumentType = table.Column<string>(nullable: true),
+                    InstrumentFK = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Instrument", x => x.InstrumentId);
+                    table.PrimaryKey("PK_InstrumentType", x => x.InstrumentTypeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -117,7 +116,8 @@ namespace okLims.Migrations
                 {
                     LaboratoryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    LaboratoryName = table.Column<string>(nullable: true)
+                    LaboratoryName = table.Column<string>(nullable: true),
+                    RequestFK = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -138,6 +138,37 @@ namespace okLims.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_NumberSequence", x => x.NumberSequenceId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RequestState",
+                columns: table => new
+                {
+                    StateId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    State = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequestState", x => x.StateId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ScheduleEvent",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    RequestFK = table.Column<int>(nullable: false),
+                    Subject = table.Column<string>(nullable: true),
+                    Location = table.Column<string>(nullable: true),
+                    StartTime = table.Column<DateTime>(nullable: false),
+                    EndTime = table.Column<DateTime>(nullable: false),
+                    CategoryColor = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ScheduleEvent", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -247,28 +278,35 @@ namespace okLims.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InstrumentLine",
+                name: "Instrument",
                 columns: table => new
                 {
-                    InstrumentLineId = table.Column<int>(nullable: false)
+                    InstrumentId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    InstrumentId = table.Column<int>(nullable: false),
-                    InstrumentHistory = table.Column<string>(nullable: true),
-                    InstrumentName = table.Column<string>(nullable: true),
-                    CalibrationDue = table.Column<DateTimeOffset>(nullable: false),
-                    CalibrationDate = table.Column<DateTimeOffset>(nullable: false),
+                    InstrumentName = table.Column<string>(nullable: false),
+                    CalibrationDue = table.Column<DateTime>(nullable: false),
+                    CalibrationDate = table.Column<DateTime>(nullable: false),
                     CalibrationLength = table.Column<int>(nullable: false),
                     MaintenanceDate = table.Column<DateTime>(nullable: false),
-                    MaintenanceInterval = table.Column<int>(nullable: false)
+                    MaintenanceInterval = table.Column<int>(nullable: false),
+                    MaintenanceDue = table.Column<DateTime>(nullable: false),
+                    InstrumentTypeID = table.Column<int>(nullable: false),
+                    InstrumentFK = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InstrumentLine", x => x.InstrumentLineId);
+                    table.PrimaryKey("PK_Instrument", x => x.InstrumentId);
                     table.ForeignKey(
-                        name: "FK_InstrumentLine_Instrument_InstrumentId",
-                        column: x => x.InstrumentId,
-                        principalTable: "Instrument",
-                        principalColumn: "InstrumentId",
+                        name: "FK_Instrument_InstrumentType_InstrumentFK",
+                        column: x => x.InstrumentFK,
+                        principalTable: "InstrumentType",
+                        principalColumn: "InstrumentTypeId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Instrument_InstrumentType_InstrumentTypeID",
+                        column: x => x.InstrumentTypeID,
+                        principalTable: "InstrumentType",
+                        principalColumn: "InstrumentTypeId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -278,17 +316,19 @@ namespace okLims.Migrations
                 {
                     RequestId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Subject = table.Column<string>(nullable: true),
+                    Start = table.Column<DateTime>(nullable: false),
+                    End = table.Column<DateTime>(nullable: false),
                     ControllerID = table.Column<int>(nullable: false),
                     SizeID = table.Column<int>(nullable: false),
                     FilterID = table.Column<int>(nullable: false),
-                    StatusID = table.Column<int>(nullable: false),
+                    StateId = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
                     LaboratoryId = table.Column<int>(nullable: false),
                     SpecialDetails = table.Column<string>(nullable: true),
                     RequesterEmail = table.Column<string>(nullable: true),
-                    StateId = table.Column<int>(nullable: false),
-                    Start = table.Column<DateTime>(nullable: false),
-                    End = table.Column<DateTime>(nullable: false),
-                    State = table.Column<int>(nullable: false)
+                    EventFK = table.Column<int>(nullable: false),
+                    RequestFK = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -312,10 +352,48 @@ namespace okLims.Migrations
                         principalColumn: "LaboratoryId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Request_ScheduleEvent_RequestFK",
+                        column: x => x.RequestFK,
+                        principalTable: "ScheduleEvent",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Request_FilterSize_SizeID",
                         column: x => x.SizeID,
                         principalTable: "FilterSize",
                         principalColumn: "SizeID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Request_RequestState_StateId",
+                        column: x => x.StateId,
+                        principalTable: "RequestState",
+                        principalColumn: "StateId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InstrumentLine",
+                columns: table => new
+                {
+                    InstrumentLineId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    InstrumentId = table.Column<int>(nullable: false),
+                    InstrumentHistory = table.Column<string>(nullable: true),
+                    InstrumentName = table.Column<string>(nullable: true),
+                    CalibrationDue = table.Column<DateTimeOffset>(nullable: false),
+                    CalibrationDate = table.Column<DateTimeOffset>(nullable: false),
+                    CalibrationLength = table.Column<int>(nullable: false),
+                    MaintenanceDate = table.Column<DateTime>(nullable: false),
+                    MaintenanceInterval = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InstrumentLine", x => x.InstrumentLineId);
+                    table.ForeignKey(
+                        name: "FK_InstrumentLine_Instrument_InstrumentId",
+                        column: x => x.InstrumentId,
+                        principalTable: "Instrument",
+                        principalColumn: "InstrumentId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -386,6 +464,16 @@ namespace okLims.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Instrument_InstrumentFK",
+                table: "Instrument",
+                column: "InstrumentFK");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Instrument_InstrumentTypeID",
+                table: "Instrument",
+                column: "InstrumentTypeID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_InstrumentLine_InstrumentId",
                 table: "InstrumentLine",
                 column: "InstrumentId");
@@ -406,9 +494,19 @@ namespace okLims.Migrations
                 column: "LaboratoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Request_RequestFK",
+                table: "Request",
+                column: "RequestFK");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Request_SizeID",
                 table: "Request",
                 column: "SizeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Request_StateId",
+                table: "Request",
+                column: "StateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RequestLine_RequestId",
@@ -455,6 +553,9 @@ namespace okLims.Migrations
                 name: "Request");
 
             migrationBuilder.DropTable(
+                name: "InstrumentType");
+
+            migrationBuilder.DropTable(
                 name: "ControllerType");
 
             migrationBuilder.DropTable(
@@ -464,7 +565,13 @@ namespace okLims.Migrations
                 name: "Laboratory");
 
             migrationBuilder.DropTable(
+                name: "ScheduleEvent");
+
+            migrationBuilder.DropTable(
                 name: "FilterSize");
+
+            migrationBuilder.DropTable(
+                name: "RequestState");
         }
     }
 }

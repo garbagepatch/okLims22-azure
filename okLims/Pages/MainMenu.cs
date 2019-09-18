@@ -125,5 +125,13 @@ namespace okLims.Pages
             public const string ControllerName = "ControllerType";
             public const string ActionName = "Index";
         }
+        public static class InstrumentType
+        {
+            public const string PageName = "InstrumentType";
+            public const string RoleName = "InstrumentType";
+            public const string Path = "/InstrumentType/Index";
+            public const string ControllerName = "InstrumentType";
+            public const string ActionName = "Index";
         }
+    }
 }

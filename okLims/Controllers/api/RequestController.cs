@@ -119,9 +119,9 @@ namespace okLims.Controllers.api
         {
             
             Request request = payload.value;
-            if (request.StateId <= 1)
+            if (request.StateId == 1)
             {
-                request.StateId = 1;
+                request.StateId = 2;
                 _context.Request.Update(request);
                 _context.SaveChanges();
 
@@ -144,7 +144,7 @@ namespace okLims.Controllers.api
                 this.CompleteRequest(request.RequestId);
                 request.StateId = 2;
                 _context.SaveChanges();
-                return Ok(request);
+              return  Redirect("Index");
             }
             _context.Request.Update(request);
             _context.SaveChanges();

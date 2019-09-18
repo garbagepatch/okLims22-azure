@@ -15,4 +15,5 @@ The generated UI requires MVC. To add MVC to your app:
 2. Call app.UseMvc() from your Configure method (after authentication)
 
 Apps that use ASP.NET Core Identity should also use HTTPS. To enable HTTPS see https://go.microsoft.com/fwlink/?linkid=848054.
-
+ "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Initial Catalog=aspnet-okLims6-10F86EC1-A7B9-40B3-A943-2C9C114B0BDE;MultipleActiveResultSets=False;TrustServerCertificate=False;Connection Timeout=30;",
+//  "defaultConnection": "Server=tcp:oklims.database.windows.net,1433;Initial Catalog=oklimsdb_2019-08-22T22-42Z;Persist Security Info=False;User ID=garbagepatch;Password=QzpM!05^;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"

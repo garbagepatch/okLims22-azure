@@ -125,7 +125,7 @@
                         { field: "ControllerID", headerText: 'Controller Type', foreignKeyField: "ControllerID", foreignKeyValue: "controllerType", dataSource: dataManagerControllerType },
                         { field: "LaboratoryId", headerText: 'Laboratory Name', allowEditing: true, foreignKeyField: "LaboratoryId", foreignKeyValue: "LaboratoryName", dataSource: dataManagerLaboratory },
                         { field: "SpecialDetails", headerText: 'Special Details', allowEditing: true,  width:"140" },
-                        {field: "StateId", headerText: "Request State", foreignKeyField: "StateId", foreignKeyValue:"State",  allowEditing: false, width: "100", dataSource: dataManagerState},
+                        {field: "StateId", headerText: "Request State", foreignKeyField: "StateId", foreignKeyValue:"State",  allowEditing: false, width: "100", defaultValue: 0, dataSource: dataManagerState},
             
                         
                     ],

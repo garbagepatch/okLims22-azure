@@ -12,7 +12,7 @@ namespace okLims.Models
         [Key]
         public int InstrumentLineId { get; set; }
         public int InstrumentId { get; set; }
-
+ 
         public Instrument Instrument { get; set; }
         public string InstrumentHistory { get; set; }
         public string InstrumentName { get; set; }
@@ -21,6 +21,7 @@ namespace okLims.Models
         public int CalibrationLength { get; set; }
         public DateTime MaintenanceDate { get; set; }
         public int MaintenanceInterval { get; set; }
+
 
     }
 }

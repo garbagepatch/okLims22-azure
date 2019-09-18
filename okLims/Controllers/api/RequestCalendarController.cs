@@ -28,11 +28,17 @@ namespace okLims.Controllers.api
             db = _db;
         }
         [HttpGet]
-        public IActionResult LoadData()  // Here we get the Start and End Date and based on that can filter the data and return to Scheduler
+        public async Task<IActionResult> LoadData()  // Here we get the Start and End Date and based on that can filter the data and return to Scheduler
         {
-            var data = db.ScheduleEvent.ToList();
-            return Ok(data);
-        }
+            List<Request> Items = await db.Request
+
+                  .ToListAsync();
+
+            
+
+            return Ok(Items);
+        
+    }
         [HttpPost("[action]")]
         public IActionResult UpdateData(EditParams param)
         {
@@ -44,17 +50,19 @@ namespace okLims.Controllers.api
                 
                 DateTime startTime = (value.Start);
                 DateTime endTime = (value.End);
-              Request appointment = new Request()
+                Request appointment = new Request()
                 {
                     RequestId = intMax + 1,
                     Start = startTime,
                     End = endTime,
-                    Subject = value.Subject,
+                    RequesterEmail = value.RequesterEmail,
                     LaboratoryId = value.LaboratoryId,
                     SpecialDetails = value.SpecialDetails,
                     FilterID = value.FilterID,
                     SizeID = value.SizeID,
-                    ControllerID= value.ControllerID
+                    ControllerID = value.ControllerID,
+                    StateId = value.StateId
+
                
                 };
                 db.Request.Add(appointment);
@@ -70,7 +78,12 @@ namespace okLims.Controllers.api
                     DateTime startTime = (value.Start);
                     DateTime endTime = (value.End);
                       Request appointment = db.Request.Single(A => A.RequestId ==(value.RequestId));
-              
+                    appointment.RequesterEmail = value.RequesterEmail;
+                    appointment.FilterID = value.FilterID;
+                    appointment.SizeID = value.SizeID;
+                    appointment.LaboratoryId = value.LaboratoryId;
+                    appointment.SpecialDetails = value.SpecialDetails;
+                    appointment.StateId = value.StateId;
                     appointment.Start = startTime;
                     appointment.End = endTime;                 
      

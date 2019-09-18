@@ -64,7 +64,8 @@ namespace okLims.Controllers.api
                 {
                     List<InstrumentLine> lines = new List<InstrumentLine>();
                    lines = _context.InstrumentLine.Where(x => x.InstrumentId.Equals(InstrumentId)).ToList();
-                   // update master data by its lines                                       
+                   // update master data by its lines    
+                   
                     _context.Update(Instrument);
                     _context.SaveChanges();
                 }
@@ -75,9 +76,11 @@ namespace okLims.Controllers.api
             }
         }
         [HttpPost("[action]")]
-        public  IActionResult Insert([FromBody]CrudViewModel<Instrument> payload)
+        public IActionResult Insert([FromBody]CrudViewModel<Instrument> payload)
         {
             Instrument Instrument = payload.value;
+
+    
             _context.Instrument.Add(Instrument);
             _context.SaveChanges();
 
@@ -90,6 +93,7 @@ namespace okLims.Controllers.api
         public IActionResult Update([FromBody]CrudViewModel<Instrument> payload)
         {
             Instrument Instrument = payload.value;
+       
             _context.Instrument.Update(Instrument);
             _context.SaveChanges();
             return Ok(Instrument);
@@ -107,7 +111,7 @@ namespace okLims.Controllers.api
             _context.SaveChanges();
             return Ok(Instrument);
         }
-
+       
 
 
     }

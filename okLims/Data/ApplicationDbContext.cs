@@ -34,6 +34,7 @@ namespace okLims.Data
         public DbSet<Instrument> Instrument { get; set; }
       public DbSet<RequestState> RequestState { get; set; }
         public DbSet<ScheduleEvent> ScheduleEvent { get; set; }
+        public DbSet<InstrumentType> InstrumentType { get; set; }
         
     }
 }
