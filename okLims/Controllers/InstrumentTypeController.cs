@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace okLims.Controllers
 {
-    [Authorize(Roles = Pages.MainMenu.InstrumentType.RoleName)]
+   
     public class InstrumentTypeController : Controller
     {
         public IActionResult Index()

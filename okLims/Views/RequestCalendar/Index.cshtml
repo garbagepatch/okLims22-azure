@@ -81,7 +81,7 @@
     <e-schedule-eventsettings dataSource="dataManager">
     </e-schedule-eventsettings>
 </ejs-schedule>
-@section Scripts{
+
     <style>
         .custom-event-editor .e-textlabel {
             padding-right: 15px;
@@ -94,7 +94,7 @@
         }
     </style>
 
-    <script id="EventEditorTemplate" type="text/template">
+    <script id="EventEditorTemplate" type="text/x-template">
         <table class="custom-event-editor" width="100%" cellpadding="5">
             <tbody>
                 <tr>
@@ -156,16 +156,8 @@
     </script>
 
     <script type="text/javascript">
-        this.default = function () {
-            var scheduleObj = new ej.schedule.Schedule({
-                width: '100%',
-                height: '650px',
-                views: ['Day', 'Week', 'WorkWeek', 'Month'],
-                showQuickInfo: false,
-                selectedDate: new Date(Date.now()),
-                eventSettings: { dataSource: dataManager },
-                editorTemplate: '#EventEditorTemplate',
-                popupOpen: function (args) {
+      
+             function onPopupOpen (args) {
                     if (args.type === 'Editor') {
                         var filterElement = args.element.querySelector('#FilterID');
                         if (!filterElement.classList.contains('e-dropdownlist')) {
@@ -221,8 +213,8 @@
                             new ej.calendars.DateTimePicker({ value: new Date(endElement.value) || new Date() }, endElement);
                         }
                     }
-                },
-                eventRendered: function (args) {
+                }
+            function onEventRendered(args) {
                     var categoryColor;
                     switch (args.data.StateId) {
                         case 0:
@@ -244,8 +236,8 @@
                     } else {
                         args.element.style.backgroundColor = categoryColor;
                     }
-                },
-                actionBegin: function (args) {
+                }
+                function onActionBegin(args) {
                     if (args.requestType === 'eventCreate' || args.requestType === 'eventChange') {
                         var data;
                         if (args.requestType === 'eventCreate') {
@@ -260,8 +252,6 @@
                     }
                 }
 
-            });
-            scheduleObj.appendTo('#schedule');
-        };
+         
+        
     </script>
-}

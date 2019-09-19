@@ -53,7 +53,7 @@ namespace okLims.Controllers
                 return NotFound();
             }
 
-            request.StateId = 1;
+            request.StateId = 2;
             _context.Request.Update(request);
             _context.SaveChanges();
             return View(request);

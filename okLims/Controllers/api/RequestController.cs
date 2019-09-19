@@ -119,9 +119,9 @@ namespace okLims.Controllers.api
         {
             
             Request request = payload.value;
-            if (request.StateId == 1)
+            if (request.StateId == 2)
             {
-                request.StateId = 2;
+                request.StateId = 3;
                 _context.Request.Update(request);
                 _context.SaveChanges();
 
@@ -137,12 +137,12 @@ namespace okLims.Controllers.api
         {
             Request request = payload.value;             
             
-        if (request.StateId == 1)
+        if (request.StateId == 2)
             {
          
                 await _emailSender.SendEmailAsync(request.RequesterEmail, "Order Completed", "Order Number: {RequestId} completed on {DateTime.Now}");
                 this.CompleteRequest(request.RequestId);
-                request.StateId = 2;
+                request.StateId = 3;
                 _context.SaveChanges();
               return  Redirect("Index");
             }
