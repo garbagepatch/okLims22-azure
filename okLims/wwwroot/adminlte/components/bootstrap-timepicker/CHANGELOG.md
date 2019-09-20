@@ -28,7 +28,7 @@ it's like the Wild West up in here!
 
 ### Fixed
 - Fixed bad interaction between `setTime("12:00 AM")` and `showMeridian`
-- Various documentation Requests were fixed.
+- Various documentation ScheduleEvents were fixed.
 
 ## 0.5.1 - 2015-08-06
 ### Changed

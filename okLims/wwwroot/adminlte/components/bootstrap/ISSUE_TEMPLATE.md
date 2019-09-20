@@ -1,13 +1,13 @@
-Before opening an Request:
+Before opening an ScheduleEvent:
 
-- [Search for duplicate or closed Requests](https://github.com/twbs/bootstrap/Requests?utf8=%E2%9C%93&q=is%3ARequest)
+- [Search for duplicate or closed ScheduleEvents](https://github.com/twbs/bootstrap/ScheduleEvents?utf8=%E2%9C%93&q=is%3AScheduleEvent)
 - [Validate](https://validator.w3.org/nu/) and [lint](https://github.com/twbs/bootlint#in-the-browser) any HTML to avoid common problems
 - Prepare a [reduced test case](https://css-tricks.com/reduced-test-cases/) for any bugs
 - Read the [contributing guidelines](https://github.com/twbs/bootstrap/blob/master/CONTRIBUTING.md)
 
 When asking general "how to" questions:
 
-- Please do not open an Request here
+- Please do not open an ScheduleEvent here
 - Instead, ask for help on [StackOverflow, IRC, or Slack](https://github.com/twbs/bootstrap/blob/master/README.md#community)
 
 When reporting a bug, include:

@@ -17,33 +17,43 @@
     using Syncfusion.EJ2.Schedule;
 
 
-    namespace okLims.Controllers
+namespace okLims.Controllers
+{
+    public class RequestCalendarController : Controller
     {
-        public class RequestCalendarController : Controller
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly Services.IEmailSender _emailSender;
+        private readonly ILogger _logger;
+        public RequestCalendarController(ApplicationDbContext context,
+             UserManager<ApplicationUser> userManager,
+        SignInManager<ApplicationUser> signInManager,
+        Services.IEmailSender emailSender,
+        ILogger<AccountController> logger)
         {
-            private readonly ApplicationDbContext _context;
-            private readonly UserManager<ApplicationUser> _userManager;
-            private readonly SignInManager<ApplicationUser> _signInManager;
-            private readonly Services.IEmailSender _emailSender;
-            private readonly ILogger _logger;
-            public RequestCalendarController(ApplicationDbContext context,
-                 UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            Services.IEmailSender emailSender,
-            ILogger<AccountController> logger)
-            {
-                _userManager = userManager;
-                _signInManager = signInManager;
-                _emailSender = emailSender;
-                _logger = logger;
-                _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _emailSender = emailSender;
+            _logger = logger;
+            _context = context;
 
-            }
-            public IActionResult Index()
-            {
-
-
-                return View();
-            }
         }
+        public IActionResult Index()
+        {
+            ViewBag.datasource = new ScheduleEvent().GetScheduleData();
+            List<ScheduleView> viewOption = new List<ScheduleView>()
+            {
+
+        new ScheduleView { Option = Syncfusion.EJ2.Schedule.View.Day },
+        new ScheduleView { Option = Syncfusion.EJ2.Schedule.View.Week },
+        new ScheduleView { Option = Syncfusion.EJ2.Schedule.View.WorkWeek },
+        new ScheduleView { Option = Syncfusion.EJ2.Schedule.View.Month },
+        new ScheduleView { Option = Syncfusion.EJ2.Schedule.View.Agenda }
+    };
+            ViewBag.view = viewOption;
+            return View();
+        }
+       
     }
+}

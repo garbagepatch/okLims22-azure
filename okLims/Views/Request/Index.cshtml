@@ -120,12 +120,12 @@
                         { field: "RequesterEmail", headerText: 'RequesterEmail', allowEditing: true },
                         { field: "FilterID", headerText: 'Filter Type', foreignKeyField: "FilterID", foreignKeyValue: "filterType", dataSource: dataManagerFilterType, editType: "dropdownedit" },
                         { field: "SizeID", headerText: 'FilterSize', foreignKeyField: "SizeID", foreignKeyValue: "filterSize", dataSource: dataManagerFilterSize, editType: "dropdownedit" },
-                        { field: "Start", headerText: 'Order Date', editType: "datepicker", format: "{0:MM/dd/yyyy}" },
+                        { field: "Start", headerText: 'Order Date', editType: "datepicker", format: "{0:MM/dd/yyyy}", defaultValue: "DateTime.Now" },
                         { field: "End", headerText: 'Delivery Date', editType: "datepicker", format: "{0:MM/dd/yyyy}" },
                         { field: "ControllerID", headerText: 'Controller Type', foreignKeyField: "ControllerID", foreignKeyValue: "controllerType", dataSource: dataManagerControllerType },
                         { field: "LaboratoryId", headerText: 'Laboratory Name', allowEditing: true, foreignKeyField: "LaboratoryId", foreignKeyValue: "LaboratoryName", dataSource: dataManagerLaboratory },
                         { field: "SpecialDetails", headerText: 'Special Details', allowEditing: true,  width:"140" },
-                        {field: "StateId", headerText: "Request State", foreignKeyField: "StateId", foreignKeyValue:"State",  allowEditing: false, width: "100", defaultValue: 0, dataSource: dataManagerState},
+                        {field: "StateId", headerText: "Request State", foreignKeyField: "StateId", foreignKeyValue:"State",  width: "100", defaultValue: 'Submitted', dataSource: dataManagerState},
             
                         
                     ],

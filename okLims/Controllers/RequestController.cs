@@ -47,7 +47,13 @@ namespace okLims.Controllers
         public IActionResult Detail(int id)
         {
 
-            Request request = _context.Request.SingleOrDefault(x => x.RequestId.Equals(id));
+            Request request = _context.Request
+                .Include(f => f.FilterType)
+                .Include(s => s.FilterSize)
+                .Include(c => c.ControllerType)
+                .Include(l => l.Laboratory)
+                .Include(r => r.State)
+                .SingleOrDefault(x => x.RequestId.Equals(id));
             if (request == null)
             {
                 return NotFound();

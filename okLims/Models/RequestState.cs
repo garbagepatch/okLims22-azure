@@ -12,7 +12,7 @@ namespace okLims.Models
         [Key]
         public int StateId { get; set; }
         public string State { get; set; }
-
+        public ICollection<Request> Request { get; set; }
         public static RequestState[] RequestStates()
         {
             RequestState submitted = new RequestState { StateId = 0, State = "Submitted" };

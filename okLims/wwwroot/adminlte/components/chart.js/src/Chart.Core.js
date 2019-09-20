@@ -663,13 +663,13 @@
 				return easingEffects.easeOutBounce(t * 2 - 1) * 0.5 + 1 * 0.5;
 			}
 		},
-		//Request animation polyfill - http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+		//ScheduleEvent animation polyfill - http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
 		requestAnimFrame = helpers.requestAnimFrame = (function(){
 			return window.requestAnimationFrame ||
-				window.webkitRequestAnimationFrame ||
-				window.mozRequestAnimationFrame ||
-				window.oRequestAnimationFrame ||
-				window.msRequestAnimationFrame ||
+				window.webkitScheduleEventAnimationFrame ||
+				window.mozScheduleEventAnimationFrame ||
+				window.oScheduleEventAnimationFrame ||
+				window.msScheduleEventAnimationFrame ||
 				function(callback) {
 					return window.setTimeout(callback, 1000 / 60);
 				};
@@ -1784,7 +1784,7 @@
 
 
 			// Get maximum radius of the polygon. Either half the height (minus the text width) or half the width.
-			// Use this to calculate the offset + change. - Make sure L/R protrusion is at least 0 to stop Requests with centre points
+			// Use this to calculate the offset + change. - Make sure L/R protrusion is at least 0 to stop ScheduleEvents with centre points
 			var largestPossibleRadius = min([(this.height/2 - this.pointLabelFontSize - 5), this.width/2]),
 				pointPosition,
 				i,

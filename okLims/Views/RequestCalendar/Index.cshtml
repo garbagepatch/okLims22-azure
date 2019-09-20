@@ -1,42 +1,20 @@
+@using Syncfusion.EJ2.Schedule
+@using Syncfusion.EJ2.DropDowns
 @using Syncfusion.EJ2
 
 @{
     var dataManager = new DataManager()
     {
-        Url = "../api/RequestCalendar/LoadData",
-        Adaptor = "UrlAdaptor",
-        CrudUrl = "../api/RequestCalendar/UpdateData",
+        Url= "../api/Request",
+       InsertUrl = "../api/Request/Insert",
+        Adaptor = "WebApiAdaptor",
+        UpdateUrl = "../api/Request/Update",
+        RemoveUrl="../api/Request/Remove",
         CrossDomain = true
+        
     };
 
 
-    var dataManagerFilterType = new DataManager()
-    {
-        Url = "../api/FilterType",
-        Adaptor = "WebApiAdaptor"
-    };
-
-    var dataManagerFilterSize = new DataManager()
-    {
-        Url = "../api/FilterSize",
-        Adaptor = "WebApiAdaptor"
-    };
-
-    var dataManagerControllerType = new DataManager()
-    {
-        Url = "../api/ControllerType",
-        Adaptor = "WebApiAdaptor"
-    };
-    var dataManagerLaboratory = new DataManager()
-    {
-        Url = "../api/Laboratory",
-        Adaptor = "WebApiAdaptor"
-    };
-    var dataManagerState = new DataManager()
-    {
-        Url = "../api/RequestState",
-        Adaptor = "webApiAdaptor"
-    };
 
 }
 
@@ -49,17 +27,29 @@
             <div class="box-header with-border">
                 <h3 class="box-title text-primary"><i class="fa fa-certificate"></i> Scheduler</h3>
                 <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                    <button type="button" class="btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                             title="Collapse">
                         <i class="fa fa-minus"></i>
                     </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                    <button type="button" class="btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
                         <i class="fa fa-times"></i>
                     </button>
                 </div>
             </div>
+         
             <div class="box-body">
-                <div id="schedule"></div>
+                <ejs-schedule id="schedule" width="100%" height="650px" showWeekend="false"  showQuickInfo="false" selectedDate="DateTime.Now">
+                    <e-schedule-eventsettings dataSource="dataManager">
+                        <e-eventsettings-fields id="RequestId">
+                            <e-field-subject name="RequesterEmail" title="Email"></e-field-subject>
+                            
+                            <e-field-description name="SpecialDetails"></e-field-description>
+                            <e-field-starttime name="Start"></e-field-starttime>
+                            <e-field-endtime name="End"></e-field-endtime>
+                          
+                        </e-eventsettings-fields>
+                    </e-schedule-eventsettings>
+                </ejs-schedule>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
@@ -71,187 +61,8 @@
     </section>
     <!-- /.content -->
 </div>
-<ejs-schedule id="schedule" width="100%" height="650px" selectedDate="DateTime.Now" showQuickInfo="false" actionBegin="onActionBegin" eventRendered="onEventRendered" popupOpen="onPopupOpen" editorTemplate="#EventEditorTemplate">
-    <e-schedule-views>
-        <e-schedule-view option="Day"></e-schedule-view>
-        <e-schedule-view option="Week"></e-schedule-view>
-        <e-schedule-view option="WorkWeek"></e-schedule-view>
-        <e-schedule-view option="Month"></e-schedule-view>
-    </e-schedule-views>
-    <e-schedule-eventsettings dataSource="dataManager">
-    </e-schedule-eventsettings>
-</ejs-schedule>
 
-    <style>
-        .custom-event-editor .e-textlabel {
-            padding-right: 15px;
-            text-align: right;
-        }
 
-        .custom-event-editor td {
-            padding: 7px;
-            padding-right: 16px;
-        }
-    </style>
 
-    <script id="EventEditorTemplate" type="text/x-template">
-        <table class="custom-event-editor" width="100%" cellpadding="5">
-            <tbody>
-                <tr>
-                    <td class="e-textlabel">RequesterEmail</td>
-                    <td colspan="4">
-                        <input id="RequesterEmail" type="text" class="e-field e-input" value="" name="RequesterEmail" style="width: 100%" />
-                    </td>
-                </tr>
-                <tr>
-                    <td class="e-textlabel">Filter Type</td>
-                    <td colspan="4">
-                        <input type="text" id="FilterID" name="FilterType" class="e-field" style="width: 100%" />
-                    </td>
-                </tr>
-                <tr>
-                    <td class="e-textlabel">Filter Size</td>
-                    <td colspan="4">
-                        <input type="text" id="SizeID" name="FilterSize" class="e-field" style="width: 100%" />
-                    </td>
-                </tr>
-                <tr>
-                    <td class="e-textlabel">Controller Type</td>
-                    <td colspan="4">
-                        <input type="text" id="ControllerID" name="ControllerType" class="e-field" style="width: 100%" />
-                    </td>
-                </tr>
-                <tr>
-                    <td class="e-textlabel">Laboratory</td>
-                    <td colspan="4">
-                        <input type="text" id="LaboratoryId" class="e-field" name="LaboratoryName" style="width: 100%" />
-                    </td>
-                </tr>
-                <tr>
-                    <td class="e-textlabel">From</td>
-                    <td colspan="4">
-                        <input id="Start" class="e-field" type="text" name="Start" />
-                    </td>
-                </tr>
-                <tr>
-                    <td class="e-textlabel">To</td>
-                    <td colspan="4">
-                        <input id="End" class="e-field" type="text" name="End" />
-                    </td>
-                </tr>
-                <tr>
-                    <td class="e-textlabel">Special Details</td>
-                    <td colspan="4">
-                        <textarea id="SpecialDetails" class="e-field e-input" name="SpecialDetails" rows="3" cols="50" style="width: 100%; height: 60px !important; resize: vertical"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="e-textlabel">Status</td>
-                    <td colspan="4">
-                        <input type="text" id="StateId" name="State" class="e-field" style="width: 100%" />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </script>
 
-    <script type="text/javascript">
-      
-             function onPopupOpen (args) {
-                    if (args.type === 'Editor') {
-                        var filterElement = args.element.querySelector('#FilterID');
-                        if (!filterElement.classList.contains('e-dropdownlist')) {
-                            var dropDownListObject1 = new ej.dropdowns.DropDownList({
-                                placeholder: 'Choose Filter Type', value: filterElement.value,
-                                dataSource: dataManagerFilterType
-                            });
-                            dropDownListObject1.appendTo(filterElement);
-                            filterElement.setAttribute('name', 'FilterType');
-                        }
-                        var sizeElement = args.element.querySelector('#SizeID');
-                        if (!sizeElement.classList.contains('e-dropdownlist')) {
-                            var dropDownListObject2 = new ej.dropdowns.DropDownList({
-                                placeholder: 'Choose Filter Size', value: sizeElement.value,
-                                dataSource: dataManagerFilterSize
-                            });
-                            dropDownListObject2.appendTo(sizeElement);
-                            sizeElement.setAttribute('name', 'FilterSize');
-                        }
-                        var controllerElement = args.element.querySelector('#ControllerID');
-                        if (!controllerElement.classList.contains('e-dropdownlist')) {
-                            var dropDownListObject3 = new ej.dropdowns.DropDownList({
-                                placeholder: 'Choose Controller Type', value: controllerElement.value,
-                                dataSource: dataManagerControllerType
-                            });
-                            dropDownListObject3.appendTo(controllerElement);
-                            controllerElement.setAttribute('name', 'ControllerType');
-                        }
-                        var statusElement = args.element.querySelector('#StateId');
-                        if (!statusElement.classList.contains('e-dropdownlist')) {
-                            var dropDownListObject6 = new ej.dropdowns.DropDownList({
-                                placeholder: 'Choose status', value: statusElement.value,
-                                dataSource: dataManagerState
-                            });
-                            dropDownListObject6.appendTo(statusElement);
-                            statusElement.setAttribute('name', 'State');
-                        }
-                        var labElement = args.element.querySelector('#LaboratoryId');
-                        if (!labElement.classList.contains('e-dropdownlist')) {
-                            var dropDownListObject4 = new ej.dropdowns.DropDownList({
-                                placeholder: 'Choose Lab', value: labElement.value,
-                                dataSource: dataManagerLaboratory
-                            });
-                            dropDownListObject4.appendTo(labElement);
-                            filterElement.setAttribute('name', 'LaboratoryName');
-                        }
-                        var startElement = args.element.querySelector('#Start');
 
-                        new ej.calendars.DateTimePicker({ value: new Date(startElement.value) || new Date() }, startElement);
-
-                        var endElement = args.element.querySelector('#End');
-                        if (!endElement.classList.contains('e-datetimepicker')) {
-                            new ej.calendars.DateTimePicker({ value: new Date(endElement.value) || new Date() }, endElement);
-                        }
-                    }
-                }
-            function onEventRendered(args) {
-                    var categoryColor;
-                    switch (args.data.StateId) {
-                        case 0:
-                            categoryColor = '#F57F17';
-                            break;
-                        case 2:
-                            categoryColor = '#7fa900';
-                            break;
-                        case 1:
-                            categoryColor = '#8e24aa';
-                            break;
-                    }
-                    if (!args.element || !categoryColor) {
-                        return;
-                    }
-                    var scheduleObj = document.getElementById('schedule').ej2_instances[0];
-                    if (scheduleObj.currentView === 'Agenda') {
-                        (args.element.firstChild).style.borderLeftColor = categoryColor;
-                    } else {
-                        args.element.style.backgroundColor = categoryColor;
-                    }
-                }
-                function onActionBegin(args) {
-                    if (args.requestType === 'eventCreate' || args.requestType === 'eventChange') {
-                        var data;
-                        if (args.requestType === 'eventCreate') {
-                            data = args.data[0];
-                        } else if (args.requestType === 'eventChange') {
-                            data = args.data;
-                        }
-                        var scheduleObj = document.getElementById('schedule').ej2_instances[0];
-                        if (!scheduleObj.isSlotAvailable(data.StartTime, data.EndTime)) {
-                            args.cancel = true;
-                        }
-                    }
-                }
-
-         
-        
-    </script>

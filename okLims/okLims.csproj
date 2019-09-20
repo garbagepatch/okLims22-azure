@@ -28,6 +28,8 @@
     <Compile Remove="Migrations\20190917184701_uio.Designer.cs" />
     <Compile Remove="Migrations\20190918021530_add-migation.cs" />
     <Compile Remove="Migrations\20190918021530_add-migation.Designer.cs" />
+    <Compile Remove="Migrations\20190919173701_qazx.cs" />
+    <Compile Remove="Migrations\20190919173701_qazx.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

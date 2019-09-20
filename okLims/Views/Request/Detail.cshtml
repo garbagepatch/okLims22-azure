@@ -28,29 +28,32 @@
 
                 <dl>
                     <dt>@Html.DisplayNameFor(model => model.RequestId)</dt>
-                    <dd>@Html.DisplayFor(model => model.RequestId)</dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.RequestId)
+                                        @Html.HiddenFor(m => m.RequestId)
+                                    </dd>
                     <dt> @Html.DisplayNameFor(model => model.FilterSize)</dt>
-                    <dd>@Html.DisplayFor(item => item.SizeID)</dd>
+                    <dd>@Html.DisplayFor(item => item.FilterSize.filterSize)</dd>
                     <dt>
                         @Html.DisplayNameFor(model => model.ControllerID)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(item =>item.ControllerID)
+                        @Html.DisplayFor(item =>item.ControllerType.controllerType)
                     </dd>
                     <dt>
-                        @Html.DisplayNameFor(model => model.FilterID)
+                        @Html.DisplayNameFor(model => model.FilterType)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(item => item.FilterID)
+                        @Html.DisplayFor(item => item.FilterType.filterType)
                     </dd>
                     <dt>
                         @Html.DisplayNameFor(model => model.Laboratory)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(item => item.Laboratory).ToString()
+                        @Html.DisplayFor(item => item.Laboratory.LaboratoryName)
                     </dd>
                     <dt>
                         @Html.DisplayNameFor(model => model.Start)
@@ -79,12 +82,13 @@
                         <textarea class="form-control" rows="3"> @Html.DisplayFor(model => model.SpecialDetails)</textarea>
 
                     </dd>
+                  
                     <dt>
                         @Html.DisplayNameFor(model => model.State)
                     </dt>
                     <dd>
 
-                        @Html.DisplayFor(model => model.StateId)
+                        @Html.DisplayFor(model => model.State.State)
 
                         
 
@@ -95,7 +99,7 @@
             <div class="box-footer">
 
                 <form method="post">
-                   <button asp-action="Complete" >Complete</button> 
+                   <button formaction="~/api/Request/CompleteRequest" value="@Model.RequestId" >Complete</button> 
                 </form>
             </div>
 

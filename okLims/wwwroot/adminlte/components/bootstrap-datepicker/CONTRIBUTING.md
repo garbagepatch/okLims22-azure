@@ -2,18 +2,18 @@
 
 ## Support requests
 
-The Request tracker is not the place for support requests.  If you get stuck with bootstrap-datepicker, it's very likely that the fine folks at [StackOverflow](http://stackoverflow.com/) will be able to help you; simply describe the problem you're having and provide them a link to the repo (so they know what code you're using).  Another option is to post to the [bootstrap-datepicker google group](https://groups.google.com/group/bootstrap-datepicker).
+The ScheduleEvent tracker is not the place for support requests.  If you get stuck with bootstrap-datepicker, it's very likely that the fine folks at [StackOverflow](http://stackoverflow.com/) will be able to help you; simply describe the problem you're having and provide them a link to the repo (so they know what code you're using).  Another option is to post to the [bootstrap-datepicker google group](https://groups.google.com/group/bootstrap-datepicker).
 
-## Requests
+## ScheduleEvents
 
 If you've found a bug in bootstrap-datepicker, we want to know about it!  However, please keep the following in mind:
 
 * This is not the bootstrap-datepicker from [eyecon.ro](http://www.eyecon.ro/bootstrap-datepicker/).  Stefan provided the initial code for bootstrap-datepicker, but this repo is divergent from his codebase.  Please make sure you're using either the latest tagged version or the latest master from https://github.com/uxsolutions/bootstrap-datepicker/.
 * A working example of the bug you've found is *much* easier to work with than a  description alone.  If possible, please provide a link to a demonstration of the bug, perhaps using http://jsfiddle.net/ .
   * CDN-backed assets can be found at http://bsdp-assets.blackcherry.us/ .  These should be used *only* for building test cases, as they may be removed or changed at any time.
-* Finally, it's possible someone else has already reported the same bug you have.  Please search the Request tracker for similar Requests before posting your own.  Thanks!
+* Finally, it's possible someone else has already reported the same bug you have.  Please search the ScheduleEvent tracker for similar ScheduleEvents before posting your own.  Thanks!
 
-## Pull Requests
+## Pull ScheduleEvents
 
 Patches welcome!
 

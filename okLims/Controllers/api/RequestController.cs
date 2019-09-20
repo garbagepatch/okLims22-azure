@@ -80,32 +80,26 @@ namespace okLims.Controllers.api
                 throw;
             }
         }
-        public void CompleteRequest(int Id)
+        [HttpPost("[action]/{id}")]
+        public IActionResult CompleteRequest(int Id)
         {
-            try
-            {
-                Request request = new Request();
-                request = _context.Request
-                    .Where(x => x.RequestId.Equals(Id))
-                    .FirstOrDefault();
-                
-                if (request !=null)
-                {
-                    List<RequestLine> lines = new List<RequestLine>();
-                    lines = _context.RequestLine.Where(x => x.RequestId.Equals(Id)).ToList();
-                   
-                    _context.Update(request);
-                    _context.SaveChanges();
-                }
-            } catch(Exception)
-            {
-                throw;
-            }
+            Request request = new Request();
+                        request  = _context.Request
+                       .Where(x => x.RequestId.Equals(Id))
+                       .FirstOrDefault();
+                request.StateId = 3;
+            this.UpdateRequest(request.RequestId);
+            _context.SaveChanges();
+
+
+
+            return RedirectToPage("/Request/Index");
         }
         [HttpPost("[action]")]
         public async Task<IActionResult> Insert([FromBody]CrudViewModel<Request> payload)
         {
-            Request Request = payload.value;            
+            Request Request = payload.value;
+            Request.StateId = 1;
             _context.Request.Add(Request);
             _context.SaveChanges();
             await _emailSender.SendEmailAsync(Request.RequesterEmail, "Order Received", "thank you");
@@ -117,16 +111,19 @@ namespace okLims.Controllers.api
         [HttpPost("[action]")]
         public IActionResult Detail([FromBody]CrudViewModel<Request> payload)
         {
-            
             Request request = payload.value;
-            if (request.StateId == 2)
-            {
+            Request model = _context.Request
+                .Where(b => b.RequestId == request.RequestId).FirstOrDefault();
+            if (model.StateId == 2) { 
+            
+            
                 request.StateId = 3;
                 _context.Request.Update(request);
                 _context.SaveChanges();
 
                 return Ok(request);
             }
+
             _context.Request.Update(request);
             _context.SaveChanges();
 
@@ -135,13 +132,14 @@ namespace okLims.Controllers.api
         [HttpPost("[action]")]
         public async Task<IActionResult> Update([FromBody]CrudViewModel<Request> payload)
         {
-            Request request = payload.value;             
-            
-        if (request.StateId == 2)
+            Request request = payload.value;
+            Request model = _context.Request
+                .Where(b => b.RequestId == request.RequestId).FirstOrDefault();
+            if (model.StateId == 2)
             {
          
                 await _emailSender.SendEmailAsync(request.RequesterEmail, "Order Completed", "Order Number: {RequestId} completed on {DateTime.Now}");
-                this.CompleteRequest(request.RequestId);
+                this.UpdateRequest(request.RequestId);
                 request.StateId = 3;
                 _context.SaveChanges();
               return  Redirect("Index");

@@ -76,6 +76,21 @@ namespace okLims.Services
             await _context.ControllerType.AddAsync(new ControllerType { ControllerID = 2, controllerType = "In-Control" });
             await _context.SaveChangesAsync();
           
+                await _context.ScheduleEvent.AddAsync(new ScheduleEvent
+                {
+                  
+                    Subject = "Surgery - Andrew",
+                    Description = "Confirmed",
+                    StartTime = new DateTime(2018, 2, 12, 9, 0, 0, 0),
+                    EndTime = new DateTime(2018, 2, 12, 10, 0, 0)
+                });
+                await _context.ScheduleEvent.AddAsync(new ScheduleEvent
+                {
+                    Subject = "Consulting - John",
+                    Description = "Confirmed",
+                    StartTime = new DateTime(2018, 2, 12, 10, 0, 0),
+                    EndTime = new DateTime(2018, 2, 12, 11, 30, 0)
+                });
             await _context.SaveChangesAsync();
 
 

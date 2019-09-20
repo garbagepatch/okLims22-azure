@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using okLims.Data;
 
 namespace okLims.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190919151142_ded")]
+    partial class ded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -374,8 +376,6 @@ namespace okLims.Migrations
 
                     b.Property<string>("RequesterEmail");
 
-                    b.Property<int?>("ScheduleEventId");
-
                     b.Property<int>("SizeID");
 
                     b.Property<string>("SpecialDetails");
@@ -393,8 +393,6 @@ namespace okLims.Migrations
                     b.HasIndex("FilterID");
 
                     b.HasIndex("LaboratoryId");
-
-                    b.HasIndex("ScheduleEventId");
 
                     b.HasIndex("SizeID");
 
@@ -463,15 +461,16 @@ namespace okLims.Migrations
 
                     b.Property<string>("Location");
 
-                    b.Property<DateTime>("StartTime");
+                    b.Property<int>("RequestFK");
 
-                    b.Property<int>("StateId");
+                    b.Property<DateTime>("StartTime");
 
                     b.Property<string>("Subject");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StateId");
+                    b.HasIndex("RequestFK")
+                        .IsUnique();
 
                     b.ToTable("ScheduleEvent");
                 });
@@ -558,17 +557,13 @@ namespace okLims.Migrations
                         .HasForeignKey("LaboratoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("okLims.Models.ScheduleEvent", "ScheduleEvent")
-                        .WithMany()
-                        .HasForeignKey("ScheduleEventId");
-
                     b.HasOne("okLims.Models.FilterSize", "FilterSize")
                         .WithMany("Requests")
                         .HasForeignKey("SizeID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("okLims.Models.RequestState", "State")
-                        .WithMany("Request")
+                        .WithMany()
                         .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -583,9 +578,9 @@ namespace okLims.Migrations
 
             modelBuilder.Entity("okLims.Models.ScheduleEvent", b =>
                 {
-                    b.HasOne("okLims.Models.RequestState", "Status")
-                        .WithMany()
-                        .HasForeignKey("StateId")
+                    b.HasOne("okLims.Models.Request", "Request")
+                        .WithOne("ScheduleEvent")
+                        .HasForeignKey("okLims.Models.ScheduleEvent", "RequestFK")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
